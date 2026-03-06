@@ -1,6 +1,9 @@
 package com.factory;
 
 import com.factory.ui.ConsoleUI;
+import com.factory.ui.SwingUI;
+
+import javax.swing.*;
 
 /**
  * Global Docs — Enterprise Document Processing System
@@ -16,17 +19,29 @@ import com.factory.ui.ConsoleUI;
  * - Country-specific validation (NIT, RFC, CUIT, RUT)
  * - Batch processing with detailed reporting
  * - Error handling with descriptive Spanish-language feedback
- * - Interactive console user interface
+ * - Interfaz gráfica (Swing) o consola según argumentos
  * 
  * Document types: Electronic Invoices, Legal Contracts, Financial Reports,
  *                 Digital Certificates, Tax Declarations
+ * 
+ * Uso: java -jar ... [--console]  → sin argumentos: interfaz gráfica; --console: consola
  * 
  * @author Global Docs Team
  * @version 1.0
  */
 public class Main {
     public static void main(String[] args) {
-        ConsoleUI ui = new ConsoleUI();
-        ui.start();
+        boolean useConsole = args.length > 0 && "--console".equalsIgnoreCase(args[0]);
+
+        if (useConsole) {
+            ConsoleUI ui = new ConsoleUI();
+            ui.start();
+            return;
+        }
+
+        SwingUtilities.invokeLater(() -> {
+            SwingUI ui = new SwingUI();
+            ui.start();
+        });
     }
 }
